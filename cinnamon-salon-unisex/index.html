@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cinnamon Salon – Unisex</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cinnamon: '#D2691E',
+            accent: '#FFB347',
+            dark: '#2D2D2D',
+          },
+          fontFamily: {
+            display: ['"Playfair Display"', 'serif'],
+            body: ['Inter', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--tw-font-body); }
+    .hero-bg {
+      background: linear-gradient(135deg, #FFB347 0%, #D2691E 100%);
+    }
+    .sticky-nav {
+      backdrop-filter: blur(8px);
+      background: rgba(255,255,255,0.7);
+    }
+  </style>
+</head>
+<body class="bg-white text-dark">
+  <div id="root"></div>
+
+  <!-- React & Babel -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const Nav = ({ toggleMenu, isOpen }) => {
+      return (
+        <nav className="sticky top-0 z-50 sticky-nav shadow-sm">
+          <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3 md:py-4">
+            <a href="#" className="text-2xl font-display text-cinnamon">Cinnamon Salon</a>
+            <button className="md:hidden text-cinnamon" onClick={toggleMenu}>
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                  d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
+              </svg>
+            </button>
+            <ul className={`md:flex space-x-6 text-sm font-medium ${isOpen ? "block" : "hidden"} md:block`}>
+              <li><a href="#about" className="hover:text-cinnamon transition">About</a></li>
+              <li><a href="#services" className="hover:text-cinnamon transition">Services</a></li>
+              <li><a href="#pricing" className="hover:text-cinnamon transition">Pricing</a></li>
+              <li><a href="#gallery" className="hover:text-cinnamon transition">Gallery</a></li>
+              <li><a href="#booking" className="hover:text-cinnamon transition">Book Now</a></li>
+            </ul>
+          </div>
+        </nav>
+      );
+    };
+
+    const Hero = () => (
+      <section className="hero-bg text-white py-20 md:py-32 flex items-center justify-center">
+        <div className="max-w-2xl text-center px-4">
+          <h1 className="font-display text-4xl md:text-5xl lg:text-6xl mb-4">Cinnamon Salon – Unisex</h1>
+          <p className="text-lg md:text-xl mb-8">Your style, our passion. Premium hair & beauty services in the heart of Mumbai.</p>
+          <a href="#booking" className="inline-block bg-white text-cinnamon font-medium py-3 px-8 rounded-full shadow-md hover:bg-accent hover:text-white transition transform hover:scale-105">
+            Book Your Slot
+          </a>
+        </div>
+      </section>
+    );
+
+    const About = () => (
+      <section id="about" className="py-16 bg-gray-50">
+        <div className="max-w-5xl mx-auto px-4">
+          <h2 className="font-display text-3xl text-cinnamon mb-6 text-center">Welcome to Cinnamon Salon</h2>
+          <p className="text-base md:text-lg text-center max-w-3xl mx-auto">
+            Nestled in Renuka Nagar, Cinnamon Salon offers a contemporary, unisex experience for both men and women.
+            Our skilled stylists stay ahead of trends, delivering personalized cuts, colour, treatments, and spa services.
+            We use premium products, maintain a hygienic environment, and ensure every visit feels like a mini‑retreat.
+          </p>
+        </div>
+      </section>
+    );
+
+    const servicesData = [
+      { title: "Hair Cutting", icon: "✂️", desc: "Precision cuts for all hair types." },
+      { title: "Hair Colouring", icon: "🎨", desc: "Balayage, ombre, highlights & more." },
+      { title: "Keratin Treatment", icon: "💆‍♀️", desc: "Smooth, frizz‑free hair for weeks." },
+      { title: "Facial & Skin", icon: "✨", desc: "Deep cleansing, peels & rejuvenation." },
+      { title: "Manicure & Pedicure", icon: "💅", desc: "Classic to gel finishes." },
+      { title: "Hair & Beard Styling", icon: "🧔", desc: "Grooming for the modern gentleman." },
+    ];
+
+    const Services = () => (
+      <section id="services" className="py-16">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="font-display text-3xl text-cinnamon mb-8 text-center">Our Services</h2>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {servicesData.map((s, i) => (
+              <div key={i} className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition transform hover:-translate-y-1">
+                <div className="text-4xl mb-4">{s.icon}</div>
+                <h3 className="font-medium text-xl mb-2">{s.title}</h3>
+                <p className="text-sm text-gray-600">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+
+    const Pricing = () => (
+      <section id="pricing" className="py-16 bg-gray-50">
+        <div className="max-w-5xl mx-auto px-4">
+          <h2 className="font-display text-3xl text-cinnamon mb-8 text-center">Pricing (Sample)</h2>
+          <div className="grid gap-6 md:grid-cols-2">
+            <div className="bg-white p-8 rounded-xl shadow hover:shadow-lg transition">
+              <h3 className="font-medium text-xl mb-4">Standard Packages</h3>
+              <ul className="space-y-2 text-sm">
+                <li>✂️ Hair Cut – ₹350</li>
+                <li>🎨 Full Colour – ₹1,200</li>
+                <li>💆‍♀️ Facial – ₹800</li>
+                <li>💅 Manicure – ₹400</li>
+                <li>🧔 Beard Trim – ₹250</li>
+              </ul>
+            </div>
+            <div className="bg-white p-8 rounded-xl shadow hover:shadow-lg transition">
+              <h3 className="font-medium text-xl mb-4">Premium Packages</h3>
+              <ul className="space-y-2 text-sm">
+                <li>✂️+🎨 Hair Cut & Colour – ₹1,500</li>
+                <li>💆‍♀️+✨ Keratin Treatment – ₹2,200</li>
+                <li>Full Day Spa (Hair + Skin) – ₹3,000</li>
+                <li>Grooming Combo (Hair + Beard) – ₹1,200</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+
+    const Gallery = () => (
+      <section id="gallery" className="py-16">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="font-display text-3xl text-cinnamon mb-8 text-center">Gallery</h2>
+          <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+            {[1,2,3,4,5,6].map(i => (
+              <img key={i}
+                src={`https://source.unsplash.com/collection/190727/400x400?sig=${i}`}
+                alt="Salon work"
+                className="rounded-lg object-cover w-full h-48 hover:scale-105 transition transform"/>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+
+    const BookingForm = () => {
+      const [form, setForm] = useState({ name:"", phone:"", date:"", service:"Hair Cut" });
+      const [submitted, setSubmitted] = useState(false);
+
+      const services = ["Hair Cut","Hair Colour","Keratin Treatment","Facial","Manicure","Beard Styling"];
+
+      const handleChange = e => {
+        const { name, value } = e.target;
+        setForm(prev => ({ ...prev, [name]: value }));
+      };
+
+      const handleSubmit = e => {
+        e.preventDefault();
+        // Simulate async request
+        setSubmitted(true);
+        setTimeout(() => setSubmitted(false), 4000);
+      };
+
+      return (
+        <section id="booking" className="py-20 bg-cinnamon text-white">
+          <div className="max-w-2xl mx-auto px-4">
+            <h2 className="font-display text-3xl mb-6 text-center">Book an Appointment</h2>
+            {submitted ? (
+              <div className="bg-white text-cinnamon p-6 rounded-lg text-center font-medium">
+                🎉 Thank you, {form.name}! Your appointment for {form.service} on {form.date} is confirmed.
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label className="block mb-1 font-medium">Name</label>
+                  <input type="text" name="name" required value={form.name} onChange={handleChange}
+                    className="w-full rounded px-3 py-2 text-dark focus:outline-none focus:ring-2 focus:ring-accent"/>
+                </div>
+                <div>
+                  <label className="block mb-1 font-medium">Phone</label>
+                  <input type="tel" name="phone" required value={form.phone} onChange={handleChange}
+                    className="w-full rounded px-3 py-2 text-dark focus:outline-none focus:ring-2 focus:ring-accent"/>
+                </div>
+                <div>
+                  <label className="block mb-1 font-medium">Preferred Date</label>
+                  <input type="date" name="date" required value={form.date} onChange={handleChange}
+                    className="w-full rounded px-3 py-2 text-dark focus:outline-none focus:ring-2 focus:ring-accent"/>
+                </div>
+                <div>
+                  <label className="block mb-1 font-medium">Service</label>
+                  <select name="service" value={form.service} onChange={handleChange}
+                    className="w-full rounded px-3 py-2 text-dark bg-white focus:outline-none focus:ring-2 focus:ring-accent">
+                    {services.map(s => <option key={s}>{s}</option>)}
+                  </select>
+                </div>
+                <button type="submit"
+                  className="w-full bg-accent text-white py-3 rounded-full font-medium hover:bg-white hover:text-cinnamon transition">
+                  Confirm Booking
+                </button>
+              </form>
+            )}
+          </div>
+        </section>
+      );
+    };
+
+    const Footer = () => (
+      <footer className="bg-dark text-white py-8">
+        <div className="max-w-5xl mx-auto px-4 text-center space-y-4">
+          <p>Shop No 1, Link Road, Renuka Nagar, Mumbai, Maharashtra, India</p>
+          <p>Phone: <a href="tel:+919082385951" className="underline hover:text-accent">+91 90823 85951</a></p>
+          <p className="text-sm">© {new Date().getFullYear()} Cinnamon Salon. All rights reserved.</p>
+          <p className="text-xs">Prototype by Shubh Mehta (Dev)</p>
+        </div>
+      </footer>
+    );
+
+    const App = () => {
+      const [menuOpen, setMenuOpen] = useState(false);
+      const toggleMenu = () => setMenuOpen(!menuOpen);
+
+      // Close mobile menu on navigation
+      useEffect(() => {
+        const links = document.querySelectorAll('a[href^="#"]');
+        const handler = () => setMenuOpen(false);
+        links.forEach(l => l.addEventListener('click', handler));
+        return () => links.forEach(l => l.removeEventListener('click', handler));
+      }, []);
+
+      return (
+        <>
+          <Nav toggleMenu={toggleMenu} isOpen={menuOpen} />
+          <Hero />
+          <About />
+          <Services />
+          <Pricing />
+          <Gallery />
+          <BookingForm />
+          <Footer />
+        </>
+      );
+    };
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
