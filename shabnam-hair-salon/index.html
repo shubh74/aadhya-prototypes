@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Shabnam Hair Salon – Mumbai</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#D63384',   // vibrant magenta for salon vibe
+            secondary: '#6B21A8',
+          },
+          fontFamily: {
+            heading: ['Poppins', 'sans-serif'],
+            body: ['Open Sans', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+  </style>
+</head>
+<body class="font-body bg-gray-50 text-gray-800">
+  <div id="root"></div>
+
+  <!-- React & Babel -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
+
+  <!-- Application -->
+  <script type="text/babel">
+    const { useState } = React;
+
+    const NavBar = ({ onBookClick }) => {
+      const [mobileOpen, setMobileOpen] = useState(false);
+      return (
+        <nav className="bg-white shadow-md sticky top-0 z-10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+            <div className="flex items-center">
+              <h1 className="text-2xl font-heading text-primary font-bold">Shabnam Hair Salon</h1>
+            </div>
+            <div className="hidden md:flex space-x-6">
+              <a href="#services" className="text-gray-600 hover:text-primary">Services</a>
+              <a href="#pricing" className="text-gray-600 hover:text-primary">Pricing</a>
+              <a href="#gallery" className="text-gray-600 hover:text-primary">Gallery</a>
+              <button onClick={onBookClick} className="px-4 py-2 bg-primary text-white rounded hover:bg-primary/80 transition">
+                Book Now
+              </button>
+            </div>
+            <div className="md:hidden">
+              <button onClick={() => setMobileOpen(!mobileOpen)} className="text-gray-600 focus:outline-none">
+                <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  {mobileOpen ? (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  ) : (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8h16M4 16h16" />
+                  )}
+                </svg>
+              </button>
+            </div>
+          </div>
+          {mobileOpen && (
+            <div className="md:hidden bg-white border-t border-gray-200">
+              <a href="#services" className="block px-4 py-2 text-gray-600 hover:bg-gray-100">Services</a>
+              <a href="#pricing" className="block px-4 py-2 text-gray-600 hover:bg-gray-100">Pricing</a>
+              <a href="#gallery" className="block px-4 py-2 text-gray-600 hover:bg-gray-100">Gallery</a>
+              <button onClick={() => { onBookClick(); setMobileOpen(false); }} className="w-full text-left px-4 py-2 bg-primary text-white hover:bg-primary/80 transition">
+                Book Now
+              </button>
+            </div>
+          )}
+        </nav>
+      );
+    };
+
+    const Hero = ({ onBookClick }) => (
+      <section className="bg-primary text-white py-20">
+        <div className="max-w-4xl mx-auto text-center px-4">
+          <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4">Feel Beautiful, Feel You</h2>
+          <p className="text-lg md:text-xl mb-8">Expert haircuts, vibrant colors, and luxurious treatments in the heart of Mumbai.</p>
+          <button onClick={onBookClick} className="px-6 py-3 bg-white text-primary font-semibold rounded shadow hover:bg-gray-100 transition">
+            Book Your Appointment
+          </button>
+        </div>
+      </section>
+    );
+
+    const servicesData = [
+      { title: "Hair Cutting", desc: "Precision cuts for every style.", icon: "✂️" },
+      { title: "Hair Coloring", desc: "Balayage, ombre, and full color.", icon: "🎨" },
+      { title: "Keratin Treatment", desc: "Smooth, frizz‑free hair.", icon: "💆‍♀️" },
+      { title: "Hair Spa", desc: deep conditioning & scalp massage.", icon: "🧖‍♀️" },
+    ];
+
+    const Services = () => (
+      <section id="services" className="py-16 bg-gray-100">
+        <div className="max-w-6xl mx-auto px-4">
+          <h3 className="text-3xl font-heading text-center text-primary mb-10">Our Services</h3>
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+            {servicesData.map((s, i) => (
+              <div key={i} className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+                <div className="text-4xl mb-4">{s.icon}</div>
+                <h4 className="font-semibold text-xl mb-2">{s.title}</h4>
+                <p className="text-gray-600">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+
+    const pricingData = [
+      { name: "Basic Cut", price: "₹500", desc: "Standard haircut for men & women." },
+      { name: "Color & Cut", price: "₹1,200", desc: "Cut + single‑process color." },
+      { name: "Keratin Smooth", price: "₹3,500", desc: "Keratin treatment for 3 months." },
+      { name: "Full Spa Package", price: "₹2,800", desc: "Hair spa + scalp massage." },
+    ];
+
+    const Pricing = () => (
+      <section id="pricing" className="py-16">
+        <div className="max-w-6xl mx-auto px-4">
+          <h3 className="text-3xl font-heading text-center text-primary mb-10">Pricing (Examples)</h3>
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+            {pricingData.map((p, i) => (
+              <div key={i} className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition text-center">
+                <h4 className="font-semibold text-xl mb-2">{p.name}</h4>
+                <p className="text-2xl font-heading text-secondary mb-4">{p.price}</p>
+                <p className="text-gray-600">{p.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+
+    const Gallery = () => (
+      <section id="gallery" className="py-16 bg-gray-100">
+        <div className="max-w-6xl mx-auto px-4">
+          <h3 className="text-3xl font-heading text-center text-primary mb-10">Our Work</h3>
+          <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+            {[1,2,3,4,5,6].map(num => (
+              <img
+                key={num}
+                src={`https://source.unsplash.com/featured/400x400?hair,${num}`}
+                alt="Salon work"
+                className="rounded-lg object-cover w-full h-48 hover:opacity-90 transition"
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+
+    const BookingForm = () => {
+      const [form, setForm] = useState({ name: "", email: "", phone: "", service: "Basic Cut", date: "", time: "" });
+      const [submitted, setSubmitted] = useState(false);
+
+      const handleChange = e => {
+        const { name, value } = e.target;
+        setForm(prev => ({ ...prev, [name]: value }));
+      };
+
+      const handleSubmit = e => {
+        e.preventDefault();
+        // In real app, you'd send data to server.
+        setSubmitted(true);
+      };
+
+      if (submitted) {
+        return (
+          <div className="bg-white p-8 rounded-lg shadow text-center">
+            <h4 className="text-2xl font-heading text-primary mb-4">Thank you, {form.name}!</h4>
+            <p className="text-gray-700 mb-2">Your appointment for <strong>{form.service}</strong> on <strong>{form.date}</strong> at <strong>{form.time}</strong> has been received.</p>
+            <p className="text-gray-600">We will contact you shortly at <strong>{form.email}</strong> or <strong>{form.phone}</strong>.</p>
+          </div>
+        );
+      }
+
+      return (
+        <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow space-y-4">
+          <h4 className="text-2xl font-heading text-primary mb-2">Book an Appointment</h4>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <input name="name" value={form.name} onChange={handleChange} required placeholder="Your Name"
+              className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"/>
+            <input type="email" name="email" value={form.email} onChange={handleChange} required placeholder="Email"
+              className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"/>
+            <input type="tel" name="phone" value={form.phone} onChange={handleChange} required placeholder="Phone"
+              className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"/>
+            <select name="service" value={form.service} onChange={handleChange}
+              className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+              {pricingData.map(p => <option key={p.name} value={p.name}>{p.name} – {p.price}</option>)}
+            </select>
+            <input type="date" name="date" value={form.date} onChange={handleChange} required
+              className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"/>
+            <input type="time" name="time" value={form.time} onChange={handleChange} required
+              className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"/>
+          </div>
+          <button type="submit" className="w-full bg-primary text-white py-2 rounded hover:bg-primary/80 transition">
+            Confirm Booking
+          </button>
+        </form>
+      );
+    };
+
+    const Footer = () => (
+      <footer className="bg-gray-800 text-gray-200 py-8">
+        <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-6">
+          <div>
+            <h5 className="font-heading text-primary mb-2">Shabnam Hair Salon</h5>
+            <p>Adi Sankaracharya Marg, Tirandaz Village,<br/>Kanjur West, Mumbai, India</p>
+            <p className="mt-2"><a href="https://www.google.com/maps/search/?api=1&query=Adi+Sankaracharya+Marg+Tirandaz+Village+Kanjur+West+Mumbai"
+               target="_blank" rel="noopener" className="text-primary hover:underline">View on Google Maps</a></p>
+          </div>
+          <div className="text-center md:text-right">
+            <p>© {new Date().getFullYear()} Shabnam Hair Salon</p>
+            <p className="mt-2">Prototype by <a href="https://github.com/shubhmehta" target="_blank" rel="noopener"
+               className="text-primary hover:underline">Shubh Mehta (Dev)</a></p>
+          </div>
+        </div>
+      </footer>
+    );
+
+    const App = () => {
+      const bookingRef = React.useRef(null);
+      const scrollToBooking = () => {
+        bookingRef.current?.scrollIntoView({ behavior: "smooth" });
+      };
+      return (
+        <>
+          <NavBar onBookClick={scrollToBooking} />
+          <Hero onBookClick={scrollToBooking} />
+          <Services />
+          <Pricing />
+          <Gallery />
+          <section className="py-16 bg-white" ref={bookingRef}>
+            <div className="max-w-2xl mx-auto px-4">
+              <BookingForm />
+            </div>
+          </section>
+          <Footer />
+        </>
+      );
+    };
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
