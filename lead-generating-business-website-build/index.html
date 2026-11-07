@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GrowthBoost Agency – Turn Clicks Into Clients</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0d6efd',   // Bootstrap blue as brand color
+            secondary: '#6c757d',
+            accent: '#ffc107',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            heading: ['Playfair Display', 'serif'],
+          },
+        },
+      },
+    }
+  </script>
+  <!-- React & ReactDOM -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <!-- Babel -->
+  <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
+  <style>
+    /* Smooth scroll for anchor links */
+    html { scroll-behavior: smooth; }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    const NavBar = ({ isOpen, toggle }) => (
+      <nav className="bg-white shadow sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-16">
+            <div className="flex items-center">
+              <a href="#" className="text-2xl font-heading text-primary">GrowthBoost</a>
+            </div>
+            <div className="hidden md:flex items-center space-x-8">
+              <a href="#services" className="text-gray-600 hover:text-primary">Services</a>
+              <a href="#process" className="text-gray-600 hover:text-primary">How It Works</a>
+              <a href="#testimonials" className="text-gray-600 hover:text-primary">Testimonials</a>
+              <a href="#contact" className="text-gray-600 hover:text-primary">Contact</a>
+            </div>
+            <div className="flex items-center md:hidden">
+              <button onClick={toggle} aria-label="Toggle menu">
+                <svg className="h-6 w-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  {isOpen ? (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                  ) : (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 8h16M4 16h16" />
+                  )}
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        {/* Mobile menu */}
+        {isOpen && (
+          <div className="md:hidden bg-white border-t border-gray-200">
+            <a href="#services" className="block px-4 py-2 text-gray-600 hover:bg-gray-100">Services</a>
+            <a href="#process" className="block px-4 py-2 text-gray-600 hover:bg-gray-100">How It Works</a>
+            <a href="#testimonials" className="block px-4 py-2 text-gray-600 hover:bg-gray-100">Testimonials</a>
+            <a href="#contact" className="block px-4 py-2 text-gray-600 hover:bg-gray-100">Contact</a>
+          </div>
+        )}
+      </nav>
+    );
+
+    const Hero = () => (
+      <section className="bg-primary text-white py-20">
+        <div className="max-w-4xl mx-auto text-center px-4">
+          <h1 className="text-4xl md:text-5xl font-heading mb-4">Turn Clicks Into Clients</h1>
+          <p className="text-lg md:text-xl mb-8">
+            We craft data‑driven lead generation campaigns that grow your pipeline and boost revenue.
+          </p>
+          <a href="#contact" className="inline-block bg-white text-primary font-medium py-3 px-6 rounded-full hover:bg-gray-100 transition">
+            Get Your Free Audit
+          </a>
+        </div>
+      </section>
+    );
+
+    const services = [
+      {
+        title: "Paid Advertising",
+        icon: "💰",
+        description: "Strategic Google Ads & Meta campaigns that attract high‑intent prospects."
+      },
+      {
+        title: "SEO & Content",
+        icon: "📈",
+        description: "Optimised content and technical SEO to capture organic traffic."
+      },
+      {
+        title: "Conversion Optimisation",
+        icon: "⚙️",
+        description: "Landing‑page design & A/B testing to turn visitors into leads."
+      },
+    ];
+
+    const Services = () => (
+      <section id="services" className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-heading text-center text-primary mb-12">Our Services</h2>
+          <div className="grid gap-8 md:grid-cols-3">
+            {services.map((s, i) => (
+              <div key={i} className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+                <div className="text-4xl mb-4">{s.icon}</div>
+                <h3 className="text-xl font-medium mb-2">{s.title}</h3>
+                <p className="text-gray-600">{s.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+
+    const Process = () => (
+      <section id="process" className="py-16 bg-white">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-heading text-center text-primary mb-12">How It Works</h2>
+          <ol className="space-y-8">
+            <li className="flex items-start">
+              <div className="flex-shrink-0 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold mr-4">1</div>
+              <div>
+                <h4 className="font-medium text-lg">Discovery Call</h4>
+                <p className="text-gray-600">We learn about your business goals, target audience, and current challenges.</p>
+              </div>
+            </li>
+            <li className="flex items-start">
+              <div className="flex-shrink-0 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold mr-4">2</div>
+              <div>
+                <h4 className="font-medium text-lg">Strategy Blueprint</h4>
+                <p className="text-gray-600">Our team designs a custom lead‑gen roadmap with KPIs and timelines.</p>
+              </div>
+            </li>
+            <li className="flex items-start">
+              <div className="flex-shrink-0 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold mr-4">3</div>
+              <div>
+                <h4 className="font-medium text-lg">Execution & Scaling</h4>
+                <p className="text-gray-600">We launch, monitor, and optimise campaigns to maximise ROI.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+    );
+
+    const testimonials = [
+      {
+        name: "Rohit Sharma",
+        company: "TechNova Ltd.",
+        quote: "GrowthBoost delivered a 3x increase in qualified leads within 2 months. Their data‑driven approach is unmatched.",
+      },
+      {
+        name: "Anita Patel",
+        company: "EcoWear",
+        quote: "Our online sales skyrocketed thanks to their SEO and conversion optimisation work.",
+      },
+    ];
+
+    const Testimonials = () => (
+      <section id="testimonials" className="py-16 bg-gray-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-heading text-primary mb-12">What Our Clients Say</h2>
+          <div className="grid gap-8 md:grid-cols-2">
+            {testimonials.map((t, i) => (
+              <blockquote key={i} className="bg-white p-6 rounded-xl shadow">
+                <p className="italic text-gray-800 mb-4">"{t.quote}"</p>
+                <footer className="text-sm text-gray-600">— {t.name}, {t.company}</footer>
+              </blockquote>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+
+    const ContactForm = () => {
+      const [step, setStep] = useState(1);
+      const [data, setData] = useState({ name: "", email: "", phone: "", message: "" });
+      const [submitted, setSubmitted] = useState(false);
+
+      const handleChange = (e) => {
+        const { name, value } = e.target;
+        setData(prev => ({ ...prev, [name]: value }));
+      };
+
+      const nextStep = (e) => {
+        e.preventDefault();
+        if (step === 2) {
+          // Simulate sending data
+          setSubmitted(true);
+        } else {
+          setStep(step + 1);
+        }
+      };
+
+      if (submitted) {
+        return (
+          <div className="bg-white p-8 rounded-xl shadow text-center">
+            <h3 className="text-2xl font-medium text-primary mb-4">Thank you, {data.name}!</h3>
+            <p className="text-gray-600">We’ve received your enquiry and will get back within 24 hours.</p>
+          </div>
+        );
+      }
+
+      return (
+        <form className="space-y-6" onSubmit={nextStep}>
+          {step === 1 && (
+            <>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  className="form-input w-full rounded-md border-gray-300 focus:border-primary focus:ring-primary"
+                  value={data.name}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  className="form-input w-full rounded-md border-gray-300 focus:border-primary focus:ring-primary"
+                  value={data.email}
+                  onChange={handleChange}
+                />
+              </div>
+              <button type="submit" className="w-full bg-primary text-white py-2 rounded-md hover:bg-primary/90 transition">
+                Next
+              </button>
+            </>
+          )}
+          {step === 2 && (
+            <>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                <input
+                  type="tel"
+                  name="phone"
+                  required
+                  className="form-input w-full rounded-md border-gray-300 focus:border-primary focus:ring-primary"
+                  value={data.phone}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                <textarea
+                  name="message"
+                  rows="4"
+                  required
+                  className="form-textarea w-full rounded-md border-gray-300 focus:border-primary focus:ring-primary"
+                  value={data.message}
+                  onChange={handleChange}
+                />
+              </div>
+              <button type="submit" className="w-full bg-primary text-white py-2 rounded-md hover:bg-primary/90 transition">
+                Send Enquiry
+              </button>
+            </>
+          )}
+        </form>
+      );
+    };
+
+    const Contact = () => (
+      <section id="contact" className="py-20 bg-white">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-heading text-center text-primary mb-8">Get Your Free Lead‑Gen Audit</h2>
+          <p className="text-center text-gray-600 mb-10">
+            Fill in the quick form below and our strategists will craft a custom plan for your business.
+          </p>
+          <ContactForm />
+        </div>
+      </section>
+    );
+
+    const Footer = () => (
+      <footer className="bg-gray-800 text-gray-200 py-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="mb-4">&copy; {new Date().getFullYear()} GrowthBoost Agency. All rights reserved.</p>
+          <p className="text-sm">Prototype by Shubh Mehta (Dev)</p>
+        </div>
+      </footer>
+    );
+
+    const App = () => {
+      const [menuOpen, setMenuOpen] = useState(false);
+      return (
+        <>
+          <NavBar isOpen={menuOpen} toggle={() => setMenuOpen(!menuOpen)} />
+          <Hero />
+          <Services />
+          <Process />
+          <Testimonials />
+          <Contact />
+          <Footer />
+        </>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
