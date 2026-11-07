@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dessange Salon & Spa – Mumbai</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700;900&display=swap"
+        rel="stylesheet">
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#7B3F00',
+            accent: '#C58A5A',
+            cream: '#F9F5F0',
+            dark: '#2D2D2D',
+          },
+          fontFamily: {
+            heading: ['"Playfair Display"', 'serif'],
+            body: ['Inter', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <!-- React & Babel -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    /* Smooth scroll for anchor links */
+    html { scroll-behavior: smooth; }
+  </style>
+</head>
+<body class="font-body bg-cream text-dark antialiased">
+<div id="root"></div>
+
+<script type="text/babel">
+  const { useState } = React;
+
+  const Nav = ({ onMenuToggle }) => (
+    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-sm shadow-sm">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3 md:py-4">
+        <a href="#home" className="text-2xl font-heading text-primary">Dessange Salon & Spa</a>
+        <button className="md:hidden text-dark" onClick={onMenuToggle}>
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none"
+               viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+        <ul className="hidden md:flex space-x-6 text-sm font-medium">
+          <li><a href="#about" className="hover:text-primary transition">About</a></li>
+          <li><a href="#services" className="hover:text-primary transition">Services</a></li>
+          <li><a href="#salons" className="hover:text-primary transition">Salons</a></li>
+          <li><a href="#membership" className="hover:text-primary transition">Membership</a></li>
+          <li><a href="#gallery" className="hover:text-primary transition">Gallery</a></li>
+          <li><a href="#blog" className="hover:text-primary transition">Blog</a></li>
+          <li><a href="#book" className="bg-primary text-white px-4 py-2 rounded hover:bg-accent transition">Book
+            Appointment</a></li>
+        </ul>
+      </div>
+    </nav>
+  );
+
+  const MobileMenu = ({ isOpen, onClose }) => (
+    <div className={`fixed inset-0 bg-black/30 backdrop-blur-sm z-40 ${isOpen ? '' : 'hidden'}`}>
+      <div className="bg-white w-64 h-full p-6">
+        <button className="mb-6 text-dark" onClick={onClose}>
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none"
+               viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+        <ul className="space-y-4 text-lg font-medium">
+          <li><a href="#about" onClick={onClose}>About</a></li>
+          <li><a href="#services" onClick={onClose}>Services</a></li>
+          <li><a href="#salons" onClick={onClose}>Salons</a></li>
+          <li><a href="#membership" onClick={onClose}>Membership</a></li>
+          <li><a href="#gallery" onClick={onClose}>Gallery</a></li>
+          <li><a href="#blog" onClick={onClose}>Blog</a></li>
+          <li><a href="#book" onClick={onClose}
+                 className="block bg-primary text-white text-center py-2 rounded">Book Appointment</a></li>
+        </ul>
+      </div>
+    </div>
+  );
+
+  const Hero = () => (
+    <section id="home" className="relative h-screen flex items-center justify-center text-center bg-gradient-to-r from-primary to-accent">
+      <div className="absolute inset-0 bg-black/30"></div>
+      <div className="relative z-10 max-w-2xl px-4">
+        <h1 className="text-5xl md:text-6xl font-heading text-white mb-4 drop-shadow-lg">
+          French Luxury Hair & Beauty
+        </h1>
+        <p className="text-lg md:text-xl text-white mb-8 drop-shadow-md">
+          Experience 70 years of Paris craft in the heart of Mumbai.
+        </p>
+        <a href="#book"
+           className="inline-block bg-white text-primary font-medium px-6 py-3 rounded-full hover:bg-cream transition">
+          Book Your Appointment
+        </a>
+      </div>
+    </section>
+  );
+
+  const About = () => (
+    <section id="about" className="py-20 px-4 max-w-5xl mx-auto">
+      <h2 className="text-4xl font-heading text-primary mb-6 text-center">Our Story</h2>
+      <p className="text-lg leading-relaxed text-center max-w-3xl mx-auto">
+        Since 1954, Dessange has been synonymous with effortless elegance. From the Cannes
+        red‑carpet to the bustling streets of Mumbai, our Paris‑trained stylists bring
+        timeless techniques, premium products, and a tranquil atmosphere to every client.
+        Discover a sanctuary where hair moves freely, colour glows naturally, and you
+        leave feeling unmistakably you.
+      </p>
+    </section>
+  );
+
+  const ServiceCard = ({ title, desc, price }) => (
+    <div className="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition">
+      <h3 className="text-xl font-heading text-primary mb-2">{title}</h3>
+      <p className="text-sm text-dark mb-3">{desc}</p>
+      <span className="block text-lg font-medium text-accent">{price}</span>
+    </div>
+  );
+
+  const Services = () => {
+    const services = [
+      {title: "Signature Balayage", desc: "Soft ribbons of light from root to tip.", price: "₹4,500"},
+      {title: "Coiffé‑Décoiffé", desc: "Tousled blonde finish that moves naturally.", price: "₹3,800"},
+      {title: "Glossy Waves", desc: "Deep side part with quiet volume.", price: "₹4,200"},
+      {title: "Precision Cut", desc: "Tailored cuts for every face shape.", price: "₹2,500"},
+      {title: "Luxury Spa Facial", desc: "Revitalising treatment with premium serums.", price: "₹3,200"},
+    ];
+    return (
+      <section id="services" className="py-20 bg-cream px-4">
+        <h2 className="text-4xl font-heading text-primary mb-10 text-center">Our Services</h2>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
+          {services.map((s, i) => <ServiceCard key={i} {...s} />)}
+        </div>
+      </section>
+    );
+  };
+
+  const SalonCard = ({ name, address, phone, hours }) => (
+    <div className="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition">
+      <h3 className="font-heading text-primary text-xl mb-2">{name}</h3>
+      <p className="text-sm mb-2">{address}</p>
+      <p className="text-sm mb-2"><strong>Hours:</strong> {hours}</p>
+      <p className="text-sm mb-4"><strong>Phone:</strong> {phone}</p>
+      <a href={`tel:${phone.replace(/\s+/g,'')}`} className="inline-block bg-primary text-white px-4 py-2 rounded hover:bg-accent transition">
+        Call
+      </a>
+    </div>
+  );
+
+  const Salons = () => {
+    const locations = [
+      {
+        name: "Dessange Bandra",
+        address: "190, Savanna Court, Turner Road, Opp. Bandra House, Bandra (W), Mumbai, 400050",
+        phone: "+91 91522 44214",
+        hours: "Mon‑Sun • 10:00‑20:00"
+      },
+      {
+        name: "Dessange Kemps Corner",
+        address: "162, Chinoiy Mansion, Ground Floor, Warden Road, Opp. Stephen Church, Kemps Corner, Mumbai, 400026",
+        phone: "+91 93242 50369",
+        hours: "Mon‑Sun • 10:00‑20:00"
+      },
+      {
+        name: "Dessange Palladium",
+        address: "Unit S‑39, 2nd Floor, Opp. PVR Cinema, 462 Senapati Bapat Marg, Lower Parel, Mumbai, 400013",
+        phone: "+91 90043 30073",
+        hours: "Mon‑Sun • 10:00‑22:00"
+      },
+    ];
+    return (
+      <section id="salons" className="py-20 px-4 max-w-7xl mx-auto">
+        <h2 className="text-4xl font-heading text-primary mb-10 text-center">Our Salons</h2>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {locations.map((loc, i) => <SalonCard key={i} {...loc} />)}
+        </div>
+      </section>
+    );
+  };
+
+  const Membership = () => (
+    <section id="membership" className="py-20 bg-primary text-white px-4">
+      <div className="max-w-4xl mx-auto text-center">
+        <h2 className="text-4xl font-heading mb-6">Dessange Membership</h2>
+        <p className="text-lg mb-8">
+          Enjoy priority booking, seasonal treatments, private previews and an annual
+          consultation with a Paris‑trained expert.
+        </p>
+        <a href="#book"
+           className="inline-block bg-accent text-white font-medium px-6 py-3 rounded hover:bg-cream hover:text-primary transition">
+          Explore Membership
+        </a>
+      </div>
+    </section>
+  );
+
+  const Gallery = () => {
+    const images = [
+      "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=600&q=60",
+      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=600&q=60",
+      "https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?auto=format&fit=crop&w=600&q=60",
+      "https://images.unsplash.com/photo-1499955085172-a104c9463ece?auto=format&fit=crop&w=600&q=60",
+      "https://images.unsplash.com/photo-1556228724-4b1d5d4c8c7c?auto=format&fit=crop&w=600&q=60",
+      "https://images.unsplash.com/photo-1522336572468-1f5a4c5c6c9b?auto=format&fit=crop&w=600&q=60",
+    ];
+    return (
+      <section id="gallery" className="py-20 px-4 max-w-6xl mx-auto">
+        <h2 className="text-4xl font-heading text-primary mb-10 text-center">Gallery</h2>
+        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+          {images.map((src, i) => (
+            <img key={i} src={src} alt="Dessange work"
+                 className="rounded-lg shadow-sm object-cover w-full h-48 hover:scale-105 transition-transform"/>
+          ))}
+        </div>
+      </section>
+    );
+  };
+
+  const BlogCard = ({ title, category, date, excerpt }) => (
+    <div className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition">
+      <div className="p-4">
+        <p className="text-sm text-primary font-medium">{category} • {date}</p>
+        <h3 className="font-heading text-lg text-dark mt-2">{title}</h3>
+        <p className="text-sm text-gray-600 mt-2">{excerpt}</p>
+        <a href="#" className="inline-block mt-4 text-primary hover:underline">Read article →</a>
+      </div>
+    </div>
+  );
+
+  const Blog = () => {
+    const posts = [
+      {
+        title: "7 Hair Styling Secrets Every Dessange Client Should Know",
+        category: "Care",
+        date: "August 2026",
+        excerpt: "From the perfect blowout to long‑lasting waves, discover the professional styling techniques our Dessange stylists swear by."
+      },
+      {
+        title: "Cannes Red Carpet Hair, Decoded: Recreate Alia Bhatt's Effortless Updo",
+        category: "Style",
+        date: "August 2026",
+        excerpt: "Alia Bhatt's Cannes looks were a masterclass in understated glamour—here’s how to get the look at your nearest Dessange salon."
+      },
+      {
+        title: "Five Rituals for Monsoon Hair Health",
+        category: "Care",
+        date: "July 2026",
+        excerpt: "Humidity‑proof your routine with salon‑approved care steps."
+      },
+    ];
+    return (
+      <section id="blog" className="py-20 bg-cream px-4">
+        <h2 className="text-4xl font-heading text-primary mb-10 text-center">From Our Blog</h2>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
+          {posts.map((p, i) => <BlogCard key={i} {...p} />)}
+        </div>
+      </section>
+    );
+  };
+
+  const BookingModal = ({ isOpen, onClose }) => {
+    const [form, setForm] = useState({name:"", phone:"", service:"", date:"", time:""});
+    const [submitted, setSubmitted] = useState(false);
+
+    const handleChange = e => {
+      const {name, value} = e.target;
+      setForm(prev => ({...prev, [name]: value}));
+    };
+
+    const handleSubmit = e => {
+      e.preventDefault();
+      setSubmitted(true);
+      // In a real app you would send data to a server here.
+    };
+
+    if (!isOpen) return null;
+
+    return (
+      <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+        <div className="bg-white rounded-lg w-full max-w-md p-6 relative">
+          <button onClick={onClose}
+                  className="absolute top-2 right-2 text-gray-500 hover:text-gray-800">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none"
+                 viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+
+          {submitted ? (
+            <div className="text-center">
+              <h3 className="text-2xl font-heading text-primary mb-4">Thank you!</h3>
+              <p className="text-gray-700 mb-6">We’ve received your request. Our team will contact you shortly.</p>
+              <button onClick={onClose}
+                      className="bg-primary text-white px-4 py-2 rounded hover:bg-accent transition">
+                Close
+              </button>
+            </div>
+          ) : (
+            <>
+              <h3 className="text-2xl font-heading text-primary mb-4">Book an Appointment</h3>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <input type="text" name="name" placeholder="Your Name"
+                       className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                       value={form.name} onChange={handleChange} required/>
+                <input type="tel" name="phone" placeholder="Phone Number"
+                       className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                       value={form.phone} onChange={handleChange} required/>
+                <select name="service" className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                        value={form.service} onChange={handleChange} required>
+                  <option value="">Select Service</option>
+                  <option>Signature Balayage</option>
+                  <option>Coiffé‑Décoiffé</option>
+                  <option>Glossy Waves</option>
+                  <option>Precision Cut</option>
+                  <option>Luxury Spa Facial</option>
+                </select>
+                <input type="date" name="date"
+                       className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                       value={form.date} onChange={handleChange} required/>
+                <input type="time" name="time"
+                       className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                       value={form.time} onChange={handleChange} required/>
+                <button type="submit"
+                        className="w-full bg-primary text-white py-2 rounded hover:bg-accent transition">
+                  Confirm Booking
+                </button>
+              </form>
+            </>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  const Footer = () => (
+    <footer className="bg-dark text-white py-10 px-4">
+      <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
+        <div>
+          <h4 className="font-heading text-xl mb-3">Dessange Salon & Spa</h4>
+          <p>190, Savanna Court, Turner Road, Bandra (W), Mumbai, 400050</p>
+          <p className="mt-2">Phone: <a href="tel:+9190043330073" className="underline">+91 90043 30073</a></p>
+        </div>
+        <div>
+          <h4 className="font-heading text-xl mb-3">Quick Links</h4>
+          <ul className="space-y-2">
+            <li><a href="#about" className="hover:underline">About</a></li>
+            <li><a href="#services" className="hover:underline">Services</a></li>
+            <li><a href="#salons" className="hover:underline">Salons</a></li>
+            <li><a href="#membership" className="hover:underline">Membership</a></li>
+            <li><a href="#gallery" className="hover:underline">Gallery</a></li>
+            <li><a href="#blog" className="hover:underline">Blog</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 className="font-heading text-xl mb-3">Stay Connected</h4>
+          <p>Follow us on Instagram &amp; Facebook for the latest looks and offers.</p>
+        </div>
+      </div>
+      <div className="text-center mt-8 text-sm">
+        © {new Date().getFullYear()} Dessange Salon & Spa. All rights reserved.<br/>
+        Prototype by <a href="https://github.com/shubh" className="underline hover:text-accent">Shubh Mehta (Dev)</a>
+      </div>
+    </footer>
+  );
+
+  const App = () => {
+    const [menuOpen, setMenuOpen] = useState(false);
+    const [bookingOpen, setBookingOpen] = useState(false);
+
+    const handleHashChange = () => {
+      if (window.location.hash === "#book") setBookingOpen(true);
+    };
+
+    React.useEffect(() => {
+      window.addEventListener("hashchange", handleHashChange);
+      handleHashChange(); // check on mount
+      return () => window.removeEventListener("hashchange", handleHashChange);
+    }, []);
+
+    return (
+      <>
+        <Nav onMenuToggle={() => setMenuOpen(true)} />
+        <MobileMenu isOpen={menuOpen} onClose={() => setMenuOpen(false)} />
+        <Hero />
+        <About />
+        <Services />
+        <Salons />
+        <Membership />
+        <Gallery />
+        <Blog />
+        <section id="book" className="py-20 px-4 text-center">
+          <button onClick={() => setBookingOpen(true)}
+                  className="bg-primary text-white px-6 py-3 rounded-full hover:bg-accent transition">
+            Book an Appointment
+          </button>
+        </section>
+        <BookingModal isOpen={bookingOpen} onClose={() => setBookingOpen(false)} />
+        <Footer />
+      </>
+    );
+  };
+
+  const root = ReactDOM.createRoot(document.getElementById('root'));
+  root.render(<App />);
+</script>
+</body>
+</html>
