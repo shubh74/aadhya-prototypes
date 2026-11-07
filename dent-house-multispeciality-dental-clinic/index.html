@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dent House Multispeciality Dental Clinic</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0EA5E9',   /* sky-500 */
+            accent: '#F59E0B',    /* amber-500 */
+          },
+          fontFamily: {
+            display: ['"Playfair Display"', 'serif'],
+            body: ['Poppins', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+
+  <!-- React & Babel -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    body { font-family: var(--tw-font-body); }
+    h1, h2, h3 { font-family: var(--tw-font-display); }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <div id="root"></div>
+
+  <script type="text/babel" data-presets="react,env">
+    const { useState } = React;
+
+    const Nav = ({ open, setOpen }) => (
+      <nav className="fixed inset-x-0 top-0 z-50 bg-white/80 backdrop-blur-md shadow-md">
+        <div className="max-w-6xl mx-auto flex items-center justify-between px-4 py-3 md:py-4">
+          <a href="#" className="text-2xl font-display text-primary font-bold">Dent House</a>
+          <button
+            className="md:hidden text-primary focus:outline-none"
+            onClick={() => setOpen(!open)}
+            aria-label="Toggle menu"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {open ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8h16M4 16h16" />
+              )}
+            </svg>
+          </button>
+          <ul className={`md:flex space-x-6 text-lg font-medium ${open ? 'block' : 'hidden'} absolute md:static top-full left-0 w-full bg-white md:bg-transparent md:shadow-none`}>
+            <li><a href="#hero" className="block py-2 px-4 hover:text-primary transition">Home</a></li>
+            <li><a href="#services" className="block py-2 px-4 hover:text-primary transition">Services</a></li>
+            <li><a href="#about" className="block py-2 px-4 hover:text-primary transition">About</a></li>
+            <li><a href="#contact" className="block py-2 px-4 hover:text-primary transition">Contact</a></li>
+          </ul>
+        </div>
+      </nav>
+    );
+
+    const Hero = () => (
+      <section id="hero" className="pt-20 md:pt-28 bg-gradient-to-r from-primary to-accent min-h-screen flex items-center justify-center text-center text-white">
+        <div className="max-w-2xl mx-auto px-4">
+          <h1 className="text-4xl md:text-5xl font-display mb-4 drop-shadow-lg">
+            Bright Smiles, Healthy Lives
+          </h1>
+          <p className="text-lg md:text-xl mb-8 drop-shadow-md">
+            Multispeciality Dental Care in Matunga East, Mumbai
+          </p>
+          <a href="#contact" className="inline-block bg-white text-primary font-medium py-3 px-8 rounded-full hover:bg-gray-100 transition">
+            Book an Appointment
+          </a>
+        </div>
+      </section>
+    );
+
+    const services = [
+      { title: "General Dentistry", icon: "🦷", desc: "Check‑ups, fillings, root canals & more.", price: "₹ 800 – ₹ 3,500" },
+      { title: "Cosmetic Dentistry", icon: "✨", desc: "Teeth whitening, veneers & smile makeover.", price: "₹ 5,000 – ₹ 25,000" },
+      { title: "Orthodontics", icon: "🔧", desc: "Invisalign, clear aligners & traditional braces.", price: "₹ 30,000 – ₹ 80,000" },
+      { title: "Implants & Prosthetics", icon: "🔩", desc: "Dental implants, crowns & bridges.", price: "₹ 15,000 – ₹ 60,000" },
+    ];
+
+    const Services = () => (
+      <section id="services" className="py-16 bg-white">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-3xl font-display text-center text-primary mb-12">Our Services</h2>
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+            {services.map((s, i) => (
+              <div key={i} className="bg-gray-50 p-6 rounded-xl shadow hover:shadow-lg transition">
+                <div className="text-4xl mb-4">{s.icon}</div>
+                <h3 className="text-xl font-medium mb-2">{s.title}</h3>
+                <p className="text-sm mb-3">{s.desc}</p>
+                <p className="text-sm font-semibold text-accent">{s.price}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+
+    const About = () => (
+      <section id="about" className="py-16 bg-gray-50">
+        <div className="max-w-5xl mx-auto px-4 flex flex-col md:flex-row items-center gap-8">
+          <img src="https://images.unsplash.com/photo-1588776814546-1c8e8b5c5e1e?auto=format&fit=crop&w=600&q=60" alt="Dental clinic interior" className="w-full md:w-1/2 rounded-xl shadow-lg object-cover"/>
+          <div>
+            <h2 className="text-3xl font-display text-primary mb-4">Why Choose Dent House?</h2>
+            <p className="mb-4">
+              At Dent House, we blend cutting‑edge technology with a caring touch. Our team of experienced dentists and hygienists is dedicated to providing personalised treatment plans that fit your lifestyle and budget.
+            </p>
+            <ul className="list-disc list-inside space-y-2">
+              <li>State‑of‑the‑art equipment</li>
+              <li>Comfort‑first environment</li>
+              <li>Transparent pricing</li>
+              <li>Convenient location – Laxmibai Kelkar Marg, Matunga East</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    );
+
+    const BookingForm = () => {
+      const [formData, setFormData] = useState({ name: "", phone: "", date: "", service: "" });
+      const [submitted, setSubmitted] = useState(false);
+
+      const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+      };
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        // In a real app you would send data to a server.
+        setSubmitted(true);
+      };
+
+      if (submitted) {
+        return (
+          <div className="p-6 bg-green-100 text-green-800 rounded-xl text-center">
+            <h3 className="text-xl font-medium mb-2">Thank you, {formData.name}!</h3>
+            <p>We’ve received your request for <strong>{formData.service || "a service"}</strong> on <strong>{formData.date || "your chosen date"}</strong>. We’ll call you shortly at <strong>{formData.phone}</strong>.</p>
+          </div>
+        );
+      }
+
+      return (
+        <form onSubmit={handleSubmit} className="grid gap-4">
+          <div className="grid md:grid-cols-2 gap-4">
+            <input
+              type="text"
+              name="name"
+              required
+              placeholder="Your Name"
+              className="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              value={formData.name}
+              onChange={handleChange}
+            />
+            <input
+              type="tel"
+              name="phone"
+              required
+              placeholder="Phone Number"
+              className="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              value={formData.phone}
+              onChange={handleChange}
+            />
+          </div>
+          <input
+            type="date"
+            name="date"
+            required
+            className="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            value={formData.date}
+            onChange={handleChange}
+          />
+          <select
+            name="service"
+            required
+            className="p-3 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-primary"
+            value={formData.service}
+            onChange={handleChange}
+          >
+            <option value="">Select Service</option>
+            {services.map((s, i) => (
+              <option key={i} value={s.title}>{s.title}</option>
+            ))}
+          </select>
+          <button type="submit" className="bg-primary text-white py-3 rounded-lg font-medium hover:bg-primary/90 transition">
+            Confirm Appointment
+          </button>
+        </form>
+      );
+    };
+
+    const Contact = () => (
+      <section id="contact" className="py-16 bg-white">
+        <div className="max-w-4xl mx-auto px-4">
+          <h2 className="text-3xl font-display text-center text-primary mb-8">Get in Touch</h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="space-y-4">
+              <p><strong>Address:</strong> Laxmibai Kelkar Marg, Matunga East, F/N Ward, Mumbai</p>
+              <p><strong>Phone:</strong> <a href="tel:+919920066083" className="text-primary hover:underline">+91 99200 66083</a> / <a href="tel:+919326695256" className="text-primary hover:underline">+91 93266 95256</a></p>
+              <p><strong>Email:</strong> <a href="mailto:info@denthousmumbai.com" className="text-primary hover:underline">info@denthousmumbai.com</a></p>
+              <p><strong>Working Hours:</strong> Mon‑Sat 9:00 am – 7:00 pm</p>
+            </div>
+            <BookingForm />
+          </div>
+        </div>
+      </section>
+    );
+
+    const Footer = () => (
+      <footer className="bg-gray-900 text-gray-200 py-6">
+        <div className="max-w-6xl mx-auto px-4 text-center text-sm">
+          © {new Date().getFullYear()} Dent House Multispeciality Dental Clinic. All rights reserved.<br />
+          Prototype by <a href="https://github.com/shubhmehta" className="text-accent hover:underline">Shubh Mehta (Dev)</a>
+        </div>
+      </footer>
+    );
+
+    const App = () => {
+      const [menuOpen, setMenuOpen] = useState(false);
+      return (
+        <>
+          <Nav open={menuOpen} setOpen={setMenuOpen} />
+          <main className="mt-16">
+            <Hero />
+            <Services />
+            <About />
+            <Contact />
+          </main>
+          <Footer />
+        </>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
