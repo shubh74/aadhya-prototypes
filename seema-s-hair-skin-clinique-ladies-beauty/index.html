@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seema's Hair & Skin Clinique</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#ff6f61',
+            secondary: '#2d2d2d',
+            accent: '#f4a261',
+          },
+          fontFamily: {
+            heading: ['"Playfair Display"', 'serif'],
+            body: ['Inter', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    body {font-family: var(--tw-font-body);}
+    h1, h2, h3, h4 {font-family: var(--tw-font-heading);}
+  </style>
+</head>
+<body class="bg-gray-50 text-secondary">
+
+  <div id="root"></div>
+
+  <!-- React & ReactDOM -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <!-- Babel -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script type="text/babel" data-presets="react">
+    const { useState } = React;
+
+    const Nav = ({ open, setOpen }) => (
+      <nav className="fixed inset-x-0 top-0 z-50 bg-white/80 backdrop-blur-sm shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+          <a href="#" className="text-2xl font-bold text-primary">Seema's Hair & Skin Clinique</a>
+          <div className="hidden md:flex space-x-6">
+            <a href="#services" className="hover:text-primary transition">Services</a>
+            <a href="#pricing" className="hover:text-primary transition">Pricing</a>
+            <a href="#gallery" className="hover:text-primary transition">Gallery</a>
+            <a href="#booking" className="hover:text-primary transition">Book Now</a>
+          </div>
+          <button className="md:hidden p-2" onClick={() => setOpen(!open)} aria-label="Menu">
+            <svg className="w-6 h-6 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {open ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
+        </div>
+        {open && (
+          <div className="md:hidden bg-white border-t border-gray-200">
+            <a href="#services" className="block px-4 py-2 hover:bg-gray-100">Services</a>
+            <a href="#pricing" className="block px-4 py-2 hover:bg-gray-100">Pricing</a>
+            <a href="#gallery" className="block px-4 py-2 hover:bg-gray-100">Gallery</a>
+            <a href="#booking" className="block px-4 py-2 hover:bg-gray-100">Book Now</a>
+          </div>
+        )}
+      </nav>
+    );
+
+    const Hero = () => (
+      <section className="pt-24 bg-gradient-to-r from-primary to-accent text-white min-h-[70vh] flex items-center">
+        <div className="max-w-4xl mx-auto text-center px-4">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">Glow Inside & Out</h1>
+          <p className="text-lg md:text-xl mb-6">Premium Hair, Skin & Nail Care for the Modern Woman</p>
+          <a href="#booking" className="inline-block bg-white text-primary font-medium py-3 px-6 rounded-full shadow-md hover:scale-105 transition transform">
+            Book Your Appointment
+          </a>
+        </div>
+      </section>
+    );
+
+    const servicesData = [
+      { title: "Hair Styling", desc: "Cut, color, blow‑dry & treatments", icon: "💇‍♀️" },
+      { title: "Skin Therapy", desc: "Facials, peels & micro‑needling", icon: "✨" },
+      { title: "Nail Art", desc: "Manicure, pedicure & custom designs", icon: "💅" },
+      { title: "Makeup", desc: "Bridal, party & everyday looks", icon: "💄" },
+    ];
+
+    const Services = () => (
+      <section id="services" className="py-16 bg-white">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center text-secondary mb-8">Our Services</h2>
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+            {servicesData.map((s, i) => (
+              <div key={i} className="bg-gray-50 p-6 rounded-xl shadow-sm hover:shadow-md transition">
+                <div className="text-4xl mb-4">{s.icon}</div>
+                <h3 className="text-xl font-semibold mb-2">{s.title}</h3>
+                <p className="text-sm text-gray-600">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+
+    const Pricing = () => (
+      <section id="pricing" className="py-16 bg-gray-50">
+        <div className="max-w-5xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center text-secondary mb-8">Pricing (Sample)</h2>
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {[
+              { name: "Hair Cut & Style", price: "₹ 800" },
+              { name: "Full Facial", price: "₹ 1,200" },
+              { name: "Manicure + Pedicure", price: "₹ 1,000" },
+              { name: "Hair Color (Full)", price: "₹ 2,500" },
+              { name: "Micro‑Needling", price: "₹ 3,000" },
+              { name: "Bridal Makeup", price: "₹ 5,500" },
+            ].map((item, i) => (
+              <div key={i} className="bg-white p-6 rounded-xl shadow hover:shadow-md transition text-center">
+                <h3 className="text-lg font-medium mb-2">{item.name}</h3>
+                <p className="text-2xl font-bold text-primary">{item.price}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+
+    const Gallery = () => (
+      <section id="gallery" className="py-16 bg-white">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center text-secondary mb-8">Our Work</h2>
+          <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+            {[1,2,3,4,5,6,7,8,9].map(num => (
+              <img
+                key={num}
+                src={`https://source.unsplash.com/collection/190727/400x400?sig=${num}`}
+                alt="Salon work"
+                className="w-full h-48 object-cover rounded-lg shadow-sm hover:scale-105 transition"
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+
+    const Booking = () => {
+      const [form, setForm] = useState({ name:"", phone:"", service:"Hair Styling", date:"", time:"" });
+      const [submitted, setSubmitted] = useState(false);
+
+      const handleChange = e => {
+        const { name, value } = e.target;
+        setForm(prev => ({ ...prev, [name]: value }));
+      };
+
+      const handleSubmit = e => {
+        e.preventDefault();
+        // In real world, you'd send to server
+        setSubmitted(true);
+      };
+
+      if (submitted) {
+        return (
+          <section id="booking" className="py-16 bg-primary text-white">
+            <div className="max-w-xl mx-auto text-center">
+              <h2 className="text-2xl font-bold mb-4">Thank You, {form.name}!</h2>
+              <p>Your {form.service} appointment on {form.date} at {form.time} has been received.</p>
+              <p className="mt-4">We will call you at {form.phone} shortly to confirm.</p>
+            </div>
+          </section>
+        );
+      }
+
+      return (
+        <section id="booking" className="py-16 bg-primary text-white">
+          <div className="max-w-xl mx-auto px-4">
+            <h2 className="text-3xl font-bold text-center mb-6">Book an Appointment</h2>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <input
+                type="text"
+                name="name"
+                placeholder="Your Name"
+                required
+                className="w-full px-4 py-2 rounded-md bg-white text-secondary placeholder-gray-500 focus:outline-none"
+                value={form.name}
+                onChange={handleChange}
+              />
+              <input
+                type="tel"
+                name="phone"
+                placeholder="Phone Number"
+                required
+                className="w-full px-4 py-2 rounded-md bg-white text-secondary placeholder-gray-500 focus:outline-none"
+                value={form.phone}
+                onChange={handleChange}
+              />
+              <select
+                name="service"
+                className="w-full px-4 py-2 rounded-md bg-white text-secondary focus:outline-none"
+                value={form.service}
+                onChange={handleChange}
+              >
+                {servicesData.map(s => (
+                  <option key={s.title} value={s.title}>{s.title}</option>
+                ))}
+              </select>
+              <input
+                type="date"
+                name="date"
+                required
+                className="w-full px-4 py-2 rounded-md bg-white text-secondary focus:outline-none"
+                value={form.date}
+                onChange={handleChange}
+              />
+              <input
+                type="time"
+                name="time"
+                required
+                className="w-full px-4 py-2 rounded-md bg-white text-secondary focus:outline-none"
+                value={form.time}
+                onChange={handleChange}
+              />
+              <button type="submit" className="w-full bg-white text-primary font-medium py-2 rounded-full hover:scale-105 transition">
+                Confirm Booking
+              </button>
+            </form>
+          </div>
+        </section>
+      );
+    };
+
+    const Footer = () => (
+      <footer className="bg-secondary text-white py-8">
+        <div className="max-w-6xl mx-auto px-4 text-center">
+          <p className="mb-2">Shop No. 3, Govind Towers, Kalpana Chawla Marg, Mumbai</p>
+          <p className="mb-4">Phone: <a href="tel:+919821512828" className="underline hover:text-accent">+91‑9821512828</a></p>
+          <p className="text-sm">© {new Date().getFullYear()} Seema's Hair & Skin Clinique. All rights reserved.</p>
+          <p className="mt-2 text-xs">Prototype by Shubh Mehta (Dev)</p>
+        </div>
+      </footer>
+    );
+
+    const App = () => {
+      const [menuOpen, setMenuOpen] = useState(false);
+      return (
+        <>
+          <Nav open={menuOpen} setOpen={setMenuOpen} />
+          <main className="pt-16">
+            <Hero />
+            <Services />
+            <Pricing />
+            <Gallery />
+            <Booking />
+          </main>
+          <Footer />
+        </>
+      );
+    };
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
