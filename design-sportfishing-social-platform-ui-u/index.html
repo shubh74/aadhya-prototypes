@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>The Deck Report – Sportfishing Social Platform</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0066b2',
+            secondary: '#00a8e8',
+            accent: '#ffb400',
+          },
+          fontFamily: {
+            heading: ['Montserrat', 'sans-serif'],
+            body: ['Inter', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+  <!-- React & Babel -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body class="bg-gray-50 font-body text-gray-800">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    // ==== Mock Data ==========================================================
+    const heroImg = "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1500&q=80";
+
+    const featuredReports = [
+      { title: "22nd Street Landing – Nov 6", boats: 2, anglers: 70, catches: "82 whitefish, 44 calico bass, 32 bonito…" },
+      { title: "Channel Islands – Nov 6", boats: 5, anglers: 61, catches: "286 whitefish, 251 skipjack tuna, 159 rockfish…" },
+    ];
+
+    const communityPosts = [
+      {
+        id: 1,
+        user: "Captain Mike",
+        avatar: "https://i.pravatar.cc/40?img=1",
+        text: "Huge bite on the 5‑hour half‑day! 12 whitefish and a 4‑lb yellowtail 🐟",
+        images: [
+          "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=60",
+          "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=400&q=60",
+        ],
+        likes: 23,
+        comments: 5,
+      },
+      {
+        id: 2,
+        user: "Sandy L.",
+        avatar: "https://i.pravatar.cc/40?img=2",
+        text: "First catch of the season – 2‑lb calico bass! 🎣",
+        images: ["https://images.unsplash.com/photo-1526403220-5e2c6d2e3e0a?auto=format&fit=crop&w=400&q=60"],
+        likes: 15,
+        comments: 2,
+      },
+    ];
+
+    const fishCounts = [
+      { species: "Whitefish", count: 822 },
+      { species: "Calico Bass", count: 441 },
+      { species: "Bonito", count: 132 },
+      { species: "Yellowtail", count: 73 },
+      { species: "Skipjack Tuna", count: 713 },
+    ];
+
+    const upcomingTrips = [
+      { title: "Sunset Tuna Run", date: "Nov 12", boat: "Aloha Spirit", type: "Full Day", spots: 4 },
+      { title: "Early Morning Whitefish", date: "Nov 15", boat: "Monte Carlo", type: "Half Day", spots: 2 },
+    ];
+
+    const featuredBoats = [
+      { name: "Aloha Spirit", img: "https://images.unsplash.com/photo-1518606376472-0c2e6b6c2d9c?auto=format&fit=crop&w=400&q=60" },
+      { name: "Monte Carlo", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=400&q=60" },
+    ];
+    // ========================================================================
+
+    const Nav = ({ active, setActive }) => {
+      const [mobileOpen, setMobileOpen] = useState(false);
+      const links = ["Home", "On Deck", "What's Biting", "Boats", "About"];
+      return (
+        <nav className="bg-white shadow sticky top-0 z-10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+            <div className="flex items-center">
+              <span className="text-2xl font-heading text-primary font-bold">The Deck Report</span>
+            </div>
+            {/* Desktop */}
+            <div className="hidden md:flex space-x-6">
+              {links.map(l => (
+                <button key={l}
+                  className={`text-gray-700 hover:text-primary font-medium ${active===l ? 'text-primary' : ''}`}
+                  onClick={() => setActive(l)}>
+                  {l}
+                </button>
+              ))}
+            </div>
+            {/* Mobile */}
+            <div className="md:hidden">
+              <button onClick={() => setMobileOpen(!mobileOpen)} className="text-gray-700 focus:outline-none">
+                <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  {mobileOpen ? (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  ) : (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  )}
+                </svg>
+              </button>
+            </div>
+          </div>
+          {mobileOpen && (
+            <div className="md:hidden bg-white border-t border-gray-200">
+              <div className="px-2 pt-2 pb-3 space-y-1">
+                {links.map(l => (
+                  <button key={l}
+                    className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium ${active===l ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-100'}`}
+                    onClick={() => { setActive(l); setMobileOpen(false); }}>
+                    {l}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </nav>
+      );
+    };
+
+    const Hero = () => (
+      <section className="relative bg-cover bg-center h-[70vh]" style={{ backgroundImage: `url(${heroImg})` }}>
+        <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+        <div className="relative max-w-4xl mx-auto px-4 py-24 text-center text-white">
+          <h1 className="text-4xl md:text-5xl font-heading font-bold mb-4">Your Daily Catch, Community, & Adventure</h1>
+          <p className="text-lg md:text-xl mb-6">Connect with Southern California anglers, track fish counts, and book the best trips.</p>
+          <button className="bg-primary hover:bg-secondary text-white font-medium py-3 px-6 rounded-md transition">
+            Join the Community
+          </button>
+        </div>
+      </section>
+    );
+
+    const SectionTitle = ({ children }) => (
+      <h2 className="text-2xl font-heading text-primary mb-4">{children}</h2>
+    );
+
+    const HomePage = () => (
+      <>
+        <Hero />
+        <section className="max-w-7xl mx-auto px-4 py-12">
+          {/* Featured Reports */}
+          <SectionTitle>Featured Fishing Reports</SectionTitle>
+          <div className="grid md:grid-cols-2 gap-6">
+            {featuredReports.map((r, i) => (
+              <div key={i} className="bg-white rounded-lg shadow p-6">
+                <h3 className="font-heading text-lg text-primary mb-2">{r.title}</h3>
+                <p className="text-sm text-gray-600">{r.boats} Boats • {r.anglers} Anglers</p>
+                <p className="mt-3 text-gray-700">{r.catches}</p>
+                <button className="mt-4 text-primary hover:underline text-sm">Read full report →</button>
+              </div>
+            ))}
+          </div>
+
+          {/* Community Highlights */}
+          <div className="mt-12">
+            <SectionTitle>On Deck – Community Highlights</SectionTitle>
+            <div className="grid md:grid-cols-2 gap-6">
+              {communityPosts.slice(0, 2).map(p => (
+                <div key={p.id} className="bg-white rounded-lg shadow p-4">
+                  <div className="flex items-center mb-3">
+                    <img src={p.avatar} alt={p.user} className="w-10 h-10 rounded-full mr-3"/>
+                    <span className="font-medium">{p.user}</span>
+                  </div>
+                  <p className="mb-3">{p.text}</p>
+                  <div className="grid grid-cols-2 gap-2 mb-3">
+                    {p.images.map((src, idx) => (
+                      <img key={idx} src={src} alt="" className="rounded w-full h-32 object-cover"/>
+                    ))}
+                  </div>
+                  <div className="flex text-sm text-gray-500 space-x-4">
+                    <span>👍 {p.likes}</span>
+                    <span>💬 {p.comments}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Upcoming Trips */}
+          <div className="mt-12">
+            <SectionTitle>Upcoming Trips</SectionTitle>
+            <ul className="space-y-4">
+              {upcomingTrips.map((t, i) => (
+                <li key={i} className="bg-white rounded-lg shadow p-4 flex justify-between items-center">
+                  <div>
+                    <h4 className="font-heading text-primary">{t.title}</h4>
+                    <p className="text-sm text-gray-600">{t.date} • {t.boat} • {t.type}</p>
+                  </div>
+                  <button className="bg-secondary hover:bg-primary text-white py-1 px-3 rounded transition">
+                    Book ({t.spots} spots)
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Featured Boats */}
+          <div className="mt-12">
+            <SectionTitle>Featured Boats</SectionTitle>
+            <div className="grid md:grid-cols-2 gap-6">
+              {featuredBoats.map((b, i) => (
+                <div key={i} className="relative rounded-lg overflow-hidden shadow">
+                  <img src={b.img} alt={b.name} className="w-full h-48 object-cover"/>
+                  <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+                    <h3 className="text-white font-heading text-xl">{b.name}</h3>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </>
+    );
+
+    const OnDeckPage = () => {
+      const [newPost, setNewPost] = useState({ text: "", images: [] });
+      const [showConfirm, setShowConfirm] = useState(false);
+
+      const handleSubmit = e => {
+        e.preventDefault();
+        setShowConfirm(true);
+        setNewPost({ text: "", images: [] });
+        setTimeout(() => setShowConfirm(false), 3000);
+      };
+
+      return (
+        <section className="max-w-4xl mx-auto px-4 py-12">
+          <SectionTitle>On Deck – Social Feed</SectionTitle>
+
+          {/* Composer */}
+          <div className="bg-white rounded-lg shadow p-4 mb-6">
+            <form onSubmit={handleSubmit}>
+              <textarea
+                required
+                placeholder="Share your catch, story, or photo…"
+                className="w-full border rounded p-2 mb-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                rows="3"
+                value={newPost.text}
+                onChange={e => setNewPost({ ...newPost, text: e.target.value })}
+              ></textarea>
+              <button type="submit" className="bg-primary hover:bg-secondary text-white py-2 px-4 rounded">
+                Post
+              </button>
+            </form>
+            {showConfirm && <p className="mt-2 text-green-600">Your post was shared!</p>}
+          </div>
+
+          {/* Feed */}
+          {communityPosts.map(p => (
+            <div key={p.id} className="bg-white rounded-lg shadow p-4 mb-6">
+              <div className="flex items-center mb-3">
+                <img src={p.avatar} alt={p.user} className="w-10 h-10 rounded-full mr-3"/>
+                <span className="font-medium">{p.user}</span>
+              </div>
+              <p className="mb-3">{p.text}</p>
+              <div className="grid grid-cols-2 gap-2 mb-3">
+                {p.images.map((src, idx) => (
+                  <img key={idx} src={src} alt="" className="rounded w-full h-32 object-cover"/>
+                ))}
+              </div>
+              <div className="flex text-sm text-gray-500 space-x-4">
+                <span>👍 {p.likes}</span>
+                <span>💬 {p.comments}</span>
+              </div>
+            </div>
+          ))}
+        </section>
+      );
+    };
+
+    const WhatsBitingPage = () => {
+      const [filter, setFilter] = useState('All');
+      const speciesList = [...new Set(fishCounts.map(f => f.species))];
+
+      const filtered = filter === 'All' ? fishCounts : fishCounts.filter(f => f.species === filter);
+
+      return (
+        <section className="max-w-3xl mx-auto px-4 py-12">
+          <SectionTitle>What's Biting – Current Fish Counts</SectionTitle>
+
+          <div className="flex flex-wrap gap-2 mb-6">
+            <button
+              onClick={() => setFilter('All')}
+              className={`px-3 py-1 rounded ${filter==='All' ? 'bg-primary text-white' : 'bg-gray-200'}`}
+            >All</button>
+            {speciesList.map(s => (
+              <button
+                key={s}
+                onClick={() => setFilter(s)}
+                className={`px-3 py-1 rounded ${filter===s ? 'bg-primary text-white' : 'bg-gray-200'}`}
+              >{s}</button>
+            ))}
+          </div>
+
+          <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="px-4 py-2 text-left font-medium text-gray-700">Species</th>
+                <th className="px-4 py-2 text-left font-medium text-gray-700">Count</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map((f, i) => (
+                <tr key={i} className={i%2===0 ? 'bg-gray-50' : ''}>
+                  <td className="px-4 py-2">{f.species}</td>
+                  <td className="px-4 py-2">{f.count}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
+      );
+    };
+
+    const BoatsPage = () => (
+      <section className="max-w-5xl mx-auto px-4 py-12">
+        <SectionTitle>Featured Boats</SectionTitle>
+        <div className="grid md:grid-cols-3 gap-6">
+          {featuredBoats.map((b, i) => (
+            <div key={i} className="bg-white rounded-lg shadow overflow-hidden">
+              <img src={b.img} alt={b.name} className="w-full h-48 object-cover"/>
+              <div className="p-4">
+                <h4 className="font-heading text-primary">{b.name}</h4>
+                <button className="mt-2 bg-primary hover:bg-secondary text-white py-1 px-3 rounded transition">
+                  View Details
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+
+    const AboutPage = () => (
+      <section className="max-w-3xl mx-auto px-4 py-12">
+        <SectionTitle>About The Deck Report</SectionTitle>
+        <p className="mb-4">
+          The Deck Report is the hub for Southern California sportfishing enthusiasts. We bring together real‑time
+          fish counts, daily trip reports, and a vibrant community where anglers share their stories, photos, and
+          tips. Whether you’re a seasoned captain or a weekend hobbyist, our platform helps you plan better trips,
+          discover new boats, and connect with fellow anglers.
+        </p>
+        <p className="mb-4">
+          Founded in 2022, we’ve grown into a trusted source for accurate catch data and a place where the love
+          for the ocean is celebrated daily.
+        </p>
+        <p className="font-medium">Contact us: <a href="mailto:info@thedeckreport.com" className="text-primary underline">info@thedeckreport.com</a></p>
+      </section>
+    );
+
+    const Footer = () => (
+      <footer className="bg-gray-800 text-gray-200 py-6 mt-12">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <p>&copy; {new Date().getFullYear()} The Deck Report. All rights reserved.</p>
+          <p className="text-sm">Prototype by Shubh Mehta (Dev)</p>
+        </div>
+      </footer>
+    );
+
+    const App = () => {
+      const [activePage, setActivePage] = useState('Home');
+
+      const renderPage = () => {
+        switch (activePage) {
+          case 'Home': return <HomePage />;
+          case 'On Deck': return <OnDeckPage />;
+          case "What's Biting": return <WhatsBitingPage />;
+          case 'Boats': return <BoatsPage />;
+          case 'About': return <AboutPage />;
+          default: return <HomePage />;
+        }
+      };
+
+      return (
+        <>
+          <Nav active={activePage} setActive={setActivePage} />
+          {renderPage()}
+          <Footer />
+        </>
+      );
+    };
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
