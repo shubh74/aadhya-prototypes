@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dil Bahar Hair Salon – Mumbai</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#c2185b',   /* deep pink */
+            secondary: '#f8bbd0', /* pastel pink */
+          },
+          fontFamily: {
+            heading: ['Poppins', 'sans-serif'],
+            body: ['Open Sans', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- React & Babel -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
+
+  <style>
+    body {font-family: var(--tw-font-body);}
+    h1, h2, h3, h4 {font-family: var(--tw-font-heading);}
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+
+    const { useState } = React;
+
+    const NavBar = ({ onMenuToggle }) => {
+      const [open, setOpen] = useState(false);
+      const toggle = () => setOpen(!open);
+      return (
+        <nav className="sticky top-0 bg-white shadow-md z-10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+            <div className="text-2xl font-bold text-primary">Dil Bahar</div>
+            <div className="hidden md:flex space-x-6">
+              <a href="#services" className="hover:text-primary">Services</a>
+              <a href="#pricing" className="hover:text-primary">Pricing</a>
+              <a href="#gallery" className="hover:text-primary">Gallery</a>
+              <a href="#booking" className="hover:text-primary">Book Now</a>
+            </div>
+            <button className="md:hidden focus:outline-none" onClick={toggle}>
+              <svg className="h-6 w-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {open ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/>
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"/>
+                )}
+              </svg>
+            </button>
+          </div>
+          {open && (
+            <div className="md:hidden bg-white border-t border-gray-200">
+              <div className="px-2 pt-2 pb-3 space-y-1">
+                <a href="#services" className="block px-3 py-2 rounded-md text-base font-medium hover:bg-primary hover:text-white">Services</a>
+                <a href="#pricing" className="block px-3 py-2 rounded-md text-base font-medium hover:bg-primary hover:text-white">Pricing</a>
+                <a href="#gallery" className="block px-3 py-2 rounded-md text-base font-medium hover:bg-primary hover:text-white">Gallery</a>
+                <a href="#booking" className="block px-3 py-2 rounded-md text-base font-medium hover:bg-primary hover:text-white">Book Now</a>
+              </div>
+            </div>
+          )}
+        </nav>
+      );
+    };
+
+    const Hero = () => (
+      <section className="relative bg-cover bg-center h-screen" style={{backgroundImage: "url('https://images.unsplash.com/photo-1582719478180-5d7d6a3b0c2d?auto=format&fit=crop&w=1650&q=80')"}}>
+        <div className="absolute inset-0 bg-black opacity-40"></div>
+        <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-4">
+          <h1 className="text-4xl md:text-6xl font-bold mb-4">Dil Bahar Hair Salon</h1>
+          <p className="text-xl md:text-2xl mb-6">Experience Elegance, Unleash Your Style</p>
+          <a href="#booking" className="bg-primary hover:bg-primary/80 text-white font-semibold py-3 px-6 rounded-full transition">Book Your Appointment</a>
+        </div>
+      </section>
+    );
+
+    const servicesData = [
+      {title: "Hair Cutting", desc: "Precision cuts for men and women.", icon: "✂️"},
+      {title: "Hair Coloring", desc: "Vibrant shades & subtle tones.", icon: "🎨"},
+      {title: "Keratin Treatment", desc: "Smooth, frizz‑free hair.", icon: "💆‍♀️"},
+      {title: "Bridal Styling", desc: "Make your big day unforgettable.", icon: "👰"},
+    ];
+
+    const Services = () => (
+      <section id="services" className="py-16 bg-white">
+        <div className="max-w-5xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center text-primary mb-8">Our Services</h2>
+          <div className="grid gap-8 md:grid-cols-2">
+            {servicesData.map((s, i) => (
+              <div key={i} className="flex items-start p-6 bg-gray-50 rounded-lg shadow hover:shadow-lg transition">
+                <div className="text-3xl mr-4">{s.icon}</div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">{s.title}</h3>
+                  <p className="text-gray-600">{s.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+
+    const pricingData = [
+      {service: "Hair Cutting", price: "₹300 – ₹800"},
+      {service: "Hair Coloring", price: "₹800 – ₹2,500"},
+      {service: "Keratin Treatment", price: "₹3,000 – ₹5,000"},
+      {service: "Bridal Styling", price: "₹5,000 – ₹12,000"},
+    ];
+
+    const Pricing = () => (
+      <section id="pricing" className="py-16 bg-gray-50">
+        <div className="max-w-5xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center text-primary mb-8">Pricing (Examples)</h2>
+          <div className="grid gap-6 md:grid-cols-2">
+            {pricingData.map((p, i) => (
+              <div key={i} className="p-6 bg-white rounded-lg shadow hover:shadow-lg transition text-center">
+                <h3 className="text-xl font-semibold mb-2">{p.service}</h3>
+                <p className="text-2xl font-bold text-primary">{p.price}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+
+    const Gallery = () => (
+      <section id="gallery" className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center text-primary mb-8">Gallery</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[1,2,3,4,5,6,7,8].map(i => (
+              <img key={i}
+                src={`https://images.unsplash.com/photo-1582719478180-5d7d6a3b0c2d?auto=format&fit=crop&w=400&h=400&q=80&sat=-10&${i}`}
+                alt="Salon work"
+                className="object-cover w-full h-48 rounded-lg shadow hover:scale-105 transition"/>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+
+    const Booking = () => {
+      const [form, setForm] = useState({name:"", phone:"", service:"Hair Cutting", date:""});
+      const [submitted, setSubmitted] = useState(false);
+
+      const handleChange = e => {
+        const {name, value} = e.target;
+        setForm(prev => ({...prev, [name]: value}));
+      };
+
+      const handleSubmit = e => {
+        e.preventDefault();
+        // simple validation
+        if(form.name && form.phone && form.date){
+          setSubmitted(true);
+        } else {
+          alert("Please fill all fields.");
+        }
+      };
+
+      const reset = () => {
+        setForm({name:"", phone:"", service:"Hair Cutting", date:""});
+        setSubmitted(false);
+      };
+
+      return (
+        <section id="booking" className="py-16 bg-gray-50">
+          <div className="max-w-3xl mx-auto px-4">
+            <h2 className="text-3xl font-bold text-center text-primary mb-8">Book an Appointment</h2>
+            <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow">
+              <div className="grid gap-4 md:grid-cols-2">
+                <div>
+                  <label className="block font-medium mb-1">Name</label>
+                  <input type="text" name="name" value={form.name} onChange={handleChange}
+                    className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-primary"/>
+                </div>
+                <div>
+                  <label className="block font-medium mb-1">Phone</label>
+                  <input type="tel" name="phone" value={form.phone} onChange={handleChange}
+                    className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-primary"/>
+                </div>
+                <div className="md:col-span-2">
+                  <label className="block font-medium mb-1">Service</label>
+                  <select name="service" value={form.service} onChange={handleChange}
+                    className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-primary">
+                    {servicesData.map(s => <option key={s.title}>{s.title}</option>)}
+                  </select>
+                </div>
+                <div className="md:col-span-2">
+                  <label className="block font-medium mb-1">Preferred Date</label>
+                  <input type="date" name="date" value={form.date} onChange={handleChange}
+                    className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-primary"/>
+                </div>
+              </div>
+              <button type="submit" className="mt-6 w-full bg-primary hover:bg-primary/80 text-white font-semibold py-3 rounded transition">
+                Confirm Booking
+              </button>
+            </form>
+
+            {submitted && (
+              <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40">
+                <div className="bg-white p-8 rounded-lg shadow-lg max-w-sm text-center">
+                  <h3 className="text-2xl font-bold text-primary mb-4">Thank You!</h3>
+                  <p className="mb-4">Hi {form.name}, we have received your request for <strong>{form.service}</strong> on <strong>{form.date}</strong>.</p>
+                  <p className="mb-6">We will call you at <strong>{form.phone}</strong> shortly to confirm.</p>
+                  <button onClick={reset} className="bg-primary hover:bg-primary/80 text-white py-2 px-4 rounded">Close</button>
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
+      );
+    };
+
+    const Footer = () => (
+      <footer className="bg-primary text-white py-8">
+        <div className="max-w-5xl mx-auto px-4 text-center">
+          <p className="mb-2">Dil Bahar Hair Salon<br/>Shop No 3/4, Hare Krishna Road, Tirandaz Village, Mumbai</p>
+          <p className="text-sm">Prototype by Shubh Mehta (Dev)</p>
+        </div>
+      </footer>
+    );
+
+    const App = () => (
+      <>
+        <NavBar />
+        <Hero />
+        <Services />
+        <Pricing />
+        <Gallery />
+        <Booking />
+        <Footer />
+      </>
+    );
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
