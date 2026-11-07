@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SadServers – Hands‑On Linux, DevOps & SRE Labs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#1E3A8A',   /* Indigo‑900 */
+            secondary: '#3B82F6', /* Indigo‑500 */
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+
+  <!-- React & Babel -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased">
+
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState } = React;
+
+function NavBar() {
+  const [open, setOpen] = useState(false);
+  const links = [
+    { name: "Scenarios", href: "#scenarios" },
+    { name: "Pricing", href: "#pricing" },
+    { name: "Resources", href: "#resources" },
+    { name: "About", href: "#about" },
+    { name: "Contact", href: "#contact" },
+  ];
+  return (
+    <nav className="bg-white shadow-sm sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16 items-center">
+          <a href="#" className="text-2xl font-bold text-primary">SadServers</a>
+          <div className="hidden md:flex space-x-6">
+            {links.map(l => (
+              <a key={l.name} href={l.href} className="text-gray-600 hover:text-primary transition">
+                {l.name}
+              </a>
+            ))}
+          </div>
+          <button className="md:hidden p-2 rounded-md text-gray-600 hover:bg-gray-100" onClick={()=>setOpen(!open)}>
+            <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {open ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
+        </div>
+        {open && (
+          <div className="md:hidden mt-2 space-y-2 pb-4">
+            {links.map(l => (
+              <a key={l.name} href={l.href} className="block text-gray-600 hover:text-primary transition">
+                {l.name}
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+    </nav>
+  );
+}
+
+function Hero() {
+  return (
+    <section className="bg-primary text-white py-20">
+      <div className="max-w-4xl mx-auto text-center px-4">
+        <h1 className="text-4xl md:text-5xl font-bold mb-4">Hands‑On Linux, DevOps &amp; SRE Labs</h1>
+        <p className="text-xl mb-8">Real challenges, real infrastructure, real skills – train yourself or assess hiring teams.</p>
+        <a href="#pricing" className="inline-block bg-secondary hover:bg-indigo-600 text-white font-semibold py-3 px-8 rounded-lg transition">
+          Start Free Lab
+        </a>
+      </div>
+    </section>
+  );
+}
+
+function Features() {
+  const items = [
+    { title: "Live VMs", desc: "Work on real Linux VMs – no simulators.", icon: "🖥️" },
+    { title: "SRE‑Focused", desc: "Scenarios cover observability, CI/CD, infra‑as‑code.", icon: "⚙️" },
+    { title: "Hire‑Ready", desc: "Assess candidates with production‑grade tasks.", icon: "✅" },
+    { title: "AI‑Ready", desc: "Benchmark and train your SRE AI agents.", icon: "🤖" },
+  ];
+  return (
+    <section className="py-16 bg-white">
+      <div className="max-w-6xl mx-auto px-4">
+        <h2 className="text-3xl font-bold text-center mb-12">Why SadServers?</h2>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {items.map((it, i) => (
+            <div key={i} className="bg-gray-50 rounded-xl p-6 text-center shadow-sm hover:shadow-md transition">
+              <div className="text-4xl mb-4">{it.icon}</div>
+              <h3 className="font-semibold text-lg mb-2">{it.title}</h3>
+              <p className="text-sm text-gray-600">{it.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Scenarios() {
+  const categories = [
+    "Linux & Bash",
+    "Web Servers",
+    "Databases",
+    "Data Processing",
+    "Docker",
+    "Kubernetes",
+    "CI/CD",
+    "Infrastructure As Code",
+    "Observability",
+    "Tooling / Applications",
+  ];
+  return (
+    <section id="scenarios" className="py-16 bg-gray-50">
+      <div className="max-w-6xl mx-auto px-4">
+        <h2 className="text-3xl font-bold text-center mb-12">Explore Scenarios</h2>
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {categories.map((cat, i) => (
+            <div key={i} className="bg-white rounded-xl p-5 shadow hover:shadow-md transition text-center">
+              <div className="text-2xl mb-2">🧩</div>
+              <p className="font-medium">{cat}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Pricing() {
+  const [tab, setTab] = useState('individual');
+
+  const plans = {
+    individual: [
+      { name: "Free", price: "$0", features: ["1 Lab per month", "Community support"], btn: "Start Free" },
+      { name: "Pro", price: "$49/mo", features: ["Unlimited labs", "Priority support", "API access"], btn: "Go Pro" },
+    ],
+    business: [
+      { name: "Team", price: "$199/mo", features: ["Up to 10 users", "Team dashboard", "Custom branding"], btn: "Buy Team" },
+      { name: "Enterprise", price: "Contact Us", features: ["Unlimited users", "Dedicated manager", "SLA"], btn: "Request Demo" },
+    ],
+  };
+
+  const currentPlans = plans[tab];
+
+  return (
+    <section id="pricing" className="py-20 bg-white">
+      <div className="max-w-6xl mx-auto px-4">
+        <h2 className="text-3xl font-bold text-center mb-8">Pricing</h2>
+        <div className="flex justify-center mb-8">
+          <button
+            className={`px-4 py-2 rounded-l-lg border ${tab==='individual' ? 'bg-primary text-white' : 'bg-white text-gray-700'} transition`}
+            onClick={()=>setTab('individual')}
+          >Individuals</button>
+          <button
+            className={`px-4 py-2 rounded-r-lg border ${tab==='business' ? 'bg-primary text-white' : 'bg-white text-gray-700'} transition`}
+            onClick={()=>setTab('business')}
+          >Businesses</button>
+        </div>
+        <div className="grid md:grid-cols-2 gap-8">
+          {currentPlans.map((plan, i) => (
+            <div key={i} className="border rounded-xl p-6 shadow-sm hover:shadow-md transition text-center">
+              <h3 className="text-xl font-semibold mb-2">{plan.name}</h3>
+              <p className="text-3xl font-bold mb-4">{plan.price}</p>
+              <ul className="text-left mb-6 space-y-2">
+                {plan.features.map((f, j) => (
+                  <li key={j} className="flex items-center">
+                    <svg className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    {f}
+                  </li>
+                ))}
+              </ul>
+              <button className="bg-secondary hover:bg-indigo-600 text-white font-medium py-2 px-6 rounded-lg transition">
+                {plan.btn}
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Resources() {
+  const items = [
+    { title: "FAQ", href: "#" },
+    { title: "Blog", href: "#" },
+    { title: "Documentation", href: "#" },
+    { title: "API", href: "#" },
+  ];
+  return (
+    <section id="resources" className="py-16 bg-gray-50">
+      <div className="max-w-4xl mx-auto px-4 text-center">
+        <h2 className="text-3xl font-bold mb-8">Resources</h2>
+        <div className="grid sm:grid-cols-2 gap-6">
+          {items.map((it, i) => (
+            <a key={i} href={it.href} className="block bg-white rounded-xl p-6 shadow hover:shadow-md transition">
+              <h3 className="font-semibold text-lg">{it.title}</h3>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function About() {
+  return (
+    <section id="about" className="py-20 bg-white">
+      <div className="max-w-5xl mx-auto px-4">
+        <h2 className="text-3xl font-bold text-center mb-8">About SadServers</h2>
+        <p className="text-center text-gray-700 max-w-3xl mx-auto">
+          Founded in 2022, SadServers provides hands‑on Linux, DevOps &amp; SRE labs that mimic real production
+          environments. Over 1 M virtual machines have been served to engineers worldwide. Our platform is used
+          for skill‑building, hiring assessments, and even training AI agents that automate SRE tasks.
+        </p>
+        <div className="mt-10 flex flex-col md:flex-row items-center justify-center gap-6">
+          <a href="mailto:jobs@sadservers.com?subject=SRE%20AI%20Developer" className="bg-primary hover:bg-indigo-700 text-white py-3 px-8 rounded-lg transition">
+            Apply for SRE AI Developer
+          </a>
+          <a href="https://sadservers.com" className="border border-primary text-primary hover:bg-primary hover:text-white py-3 px-8 rounded-lg transition">
+            Visit Main Site
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Contact() {
+  const [sent, setSent] = useState(false);
+  const [email, setEmail] = useState('');
+  const [msg, setMsg] = useState('');
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    // In a real app you'd send the data somewhere.
+    setSent(true);
+  };
+
+  return (
+    <section id="contact" className="py-20 bg-gray-50">
+      <div className="max-w-2xl mx-auto px-4 text-center">
+        <h2 className="text-3xl font-bold mb-6">Get in Touch</h2>
+        {sent ? (
+          <p className="text-green-600 font-medium">Thanks! Your message has been sent.</p>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <input
+              type="email"
+              required
+              placeholder="Your email"
+              className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+            />
+            <textarea
+              required
+              placeholder="Your message"
+              rows="4"
+              className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+              value={msg}
+              onChange={e => setMsg(e.target.value)}
+            ></textarea>
+            <button type="submit" className="bg-primary hover:bg-indigo-700 text-white font-semibold py-2 px-6 rounded-lg transition">
+              Send Message
+            </button>
+          </form>
+        )}
+        <p className="mt-6 text-sm text-gray-600">info@sadservers.com • Made in Canada 🇨🇦</p>
+      </div>
+    </section>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="bg-primary text-white py-8">
+      <div className="max-w-6xl mx-auto px-4 text-center">
+        <p>&copy; {new Date().getFullYear()} SadServers. All rights reserved.</p>
+        <p className="mt-2 text-sm">Prototype by Shubh Mehta (Dev)</p>
+      </div>
+    </footer>
+  );
+}
+
+function App() {
+  return (
+    <>
+      <NavBar />
+      <Hero />
+      <Features />
+      <Scenarios />
+      <Pricing />
+      <Resources />
+      <About />
+      <Contact />
+      <Footer />
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+
+</body>
+</html>
